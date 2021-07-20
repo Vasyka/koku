@@ -16,6 +16,7 @@ services:
       entrypoint:
         - /koku/run_server.sh
       environment:
+        - LOG_DIRECTORY=/opt/app-root/
         - DATABASE_SERVICE_NAME=POSTGRES_SQL
         - DATABASE_ENGINE=postgresql
         - DATABASE_NAME=${DATABASE_NAME-postgres}
@@ -70,6 +71,7 @@ services:
       entrypoint:
         - /koku/run_internal.sh
       environment:
+        - LOG_DIRECTORY=/opt/app-root/
         - MASU=True
         - DATABASE_SERVICE_NAME=POSTGRES_SQL
         - DATABASE_ENGINE=postgresql
@@ -232,6 +234,7 @@ services:
       working_dir: /koku/koku
       entrypoint: ['watchmedo', 'auto-restart', '--directory=./', '--pattern=*.py', '--recursive', '--', 'celery', '-A', 'koku', 'worker', '-l', 'info', '-Q', 'celery,download,ocp,priority,summary,cost_model,refresh']
       environment:
+        - LOG_DIRECTORY=/opt/app-root/
         - AWS_ACCESS_KEY_ID
         - AWS_SECRET_ACCESS_KEY
         - DATABASE_SERVICE_NAME=POSTGRES_SQL
@@ -362,6 +365,7 @@ services:
       working_dir: /koku/
       entrypoint: ['watchmedo', 'auto-restart', '--directory=./', '--pattern=*.py', '--recursive', '--', /koku/run_sources.sh]
       environment:
+        - LOG_DIRECTORY=/opt/app-root/
         - DATABASE_SERVICE_NAME=POSTGRES_SQL
         - DATABASE_ENGINE=postgresql
         - DATABASE_NAME=${DATABASE_NAME-postgres}
