@@ -38,10 +38,11 @@ OC_TEMPLATES = $(wildcard $(OC_TEMPLATE_DIR))
 
 # Docker compose specific file
 ifdef compose_file
-    DOCKER_COMPOSE = $(DOCKER)-compose -f $(compose_file)
+    DOCKER_COMPOSE = $(shell which docker-compose) -f $(compose_file)
 else
-	DOCKER_COMPOSE = $(DOCKER)-compose
+	DOCKER_COMPOSE = $(shell which docker-compose)
 endif
+
 
 # Platform differences
 #
@@ -342,6 +343,7 @@ _koku-wait:
      done
 
 docker-up:
+	@echo "$(DOCKER_COMPOSE)"
 	$(DOCKER_COMPOSE) up --build -d --scale koku-worker=$(scale)
 
 docker-up-no-build: docker-up-db
